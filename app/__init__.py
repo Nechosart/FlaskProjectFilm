@@ -130,13 +130,12 @@ def logout():
     return redirect('/login')
 
 
-
 @app.route('/film/<int:id>')
 def film(id):
     film = Film.query.get(id)
     return render_template("film.html", name=film.name, description=film.description, date=film.date,
                            image=film.image, url=film.url, poster=User.query.get(film.id_poster).name,
-                           country=Country.query.get(film.id_country).name, genre=Genre.query.get(film.id_genre).name)
+                           country=Country.query.get(film.id_country).name, genre=all_genres[film.id_genre])
 
 
 @login_required
