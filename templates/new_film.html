@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+entered=entered
+
+{% block content %}
+<link href="/static/styles/pick.css" rel="stylesheet">
+<link href="/static/styles/create.css" rel="stylesheet">
+
+<form method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <p class="pick_text"> {{ form.name.label }} {{ form.name(size=32) }}</p>
+    {% for e in form.name.errors %}
+        <span style="color: red"> {{ e }}</span>
+    {% endfor %}
+
+    <p class="pick_text"> {{ form.description.label }} {{ form.description(size=32) }}</p>
+    {% for e in form.description.errors %}
+        <span style="color: red"> {{ e }}</span>
+    {% endfor %}
+
+    <p class="pick_text"> {{ form.url.label }} {{ form.url(size=32) }}</p>
+    {% for e in form.url.errors %}
+        <span style="color: red"> {{ e }}</span>
+    {% endfor %}
+
+    <p class="pick_text"> {{ form.genre.label }} {{ form.genre(size=32) }}</p>
+    {% for e in form.genre.errors %}
+        <span style="color: red"> {{ e }}</span>
+    {% endfor %}
+
+    <p class="pick_text"> {{ form.country.label }} {{ form.country(size=32) }}</p>
+    {% for e in form.country.errors %}
+        <span style="color: red"> {{ e }}</span>
+    {% endfor %}
+
+    <input class="pick_text" type="file" name="image">
+    <p class="create_text">{{ form.submit }}</p>
+</form>
+
+{% endblock %}

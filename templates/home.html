@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link href="/static/styles/simple_text.css" rel="stylesheet">
+<link href="/static/styles/button_info.css" rel="stylesheet">
+<link href="/static/styles/pick.css" rel="stylesheet">
+<link href="/static/styles/create.css" rel="stylesheet">
+
+<h2><a class="create_text" href="/new_film">Post new film(only for registered)</a></h2>
+
+{% if filter %}
+    <h2 class="simple_text">Filters:</h2>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <p class="pick_text"> {{ form.name.label  }} {{ form.name(size=32) }}</p>
+        <p class="pick_text"> {{ form.genre.label }} {{ form.genre(size=32) }}</p>
+        <p class="pick_text"> {{ form.country.label }} {{ form.country(size=32) }}</p>
+        <p class="pick_text">{{ form.submit }}</p>
+    </form>
+{% endif %}
+{% if filter == False %}
+    <h2><a class="pick_text" href="/filter">Filter</a></h2>
+{% endif %}
+
+{% for f in films %}
+<h2 class="simple_text">{{f.name}} <a class="button_info" href="/film/{{f.id}}">Description</a></h2>
+{% endfor %}
+
+{% endblock %}

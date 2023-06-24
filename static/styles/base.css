@@ -1,0 +1,16 @@
+.simple_linear {
+  background: linear-gradient(rgb(0, 60, 180), rgb(0, 30, 90));
+}
+
+.highest_text {
+    padding: 0.2em;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: rgb(255, 145, 0);
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+}
+.highest_text:hover {
+    background-color: rgb(255, 255, 0);
+}

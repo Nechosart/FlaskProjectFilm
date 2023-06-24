@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link href="/static/styles/pick.css" rel="stylesheet">
+<link href="/static/styles/create.css" rel="stylesheet">
+
+<form method="post">
+    {{ form.hidden_tag() }}
+    <p class="pick_text"> {{ form.name.label }} {{ form.name(size=32) }}</p>
+    {% for e in form.name.errors %}
+        <span style="color: red"> {{ e }}</span>
+    {% endfor %}
+    <p class="pick_text"> {{ form.password.label }} {{ form.password(size=32) }}</p>
+    {% for e in form.password.errors %}
+        <span style="color: red"> {{ e }}</span>
+    {% endfor %}
+    <p class="create_text">{{ form.submit }}</p>
+</form>
+
+{% endblock %}
