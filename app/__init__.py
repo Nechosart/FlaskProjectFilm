@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, UserMixin, logout_user, login_required, current_user
-from forms import RegisterForm, LoginForm, NewFilmForm, FilterForm
+from __init__.forms import RegisterForm, LoginForm, NewFilmForm, FilterForm
 import datetime
 
 app = Flask(__name__)
@@ -14,6 +14,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
 app.app_context().push()
+
 
 login.login_view = 'login'
 
@@ -36,12 +37,17 @@ class Film(db.Model):
     image = db.Column(db.String)
     date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     url = db.Column(db.String)
-    id_poster = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_poster = db.Column(db.Integer)
     id_genre = db.Column(db.Integer)
-    id_country = db.Column(db.Integer, db.ForeignKey('country.id'))
+    id_country = db.Column(db.Integer)
+    min_year = db.Column(db.Integer)
+    max_year = db.Column(db.Integer)
 
 
-errors = ('This name already used', 'You must be poster this film')
+errors = ('This name already used', "You must be poster this film", "Choose other genre, example: Action film, "
+                    "Adventure film, Animated film, Comedy film, Drama, Fantasy film, Historical film, "
+                    "Horror film, Musical film,Noir film, Romance film, Science fiction film, Thriller film, Western")
+
 all_genres = ('Action film', 'Adventure film', 'Animated film', 'Comedy film',
               'Drama', 'Fantasy film', 'Historical film', 'Horror film', 'Musical film',
               'Noir film', 'Romance film', 'Science fiction film', 'Thriller film', 'Western')
@@ -74,14 +80,13 @@ def filter():
                     films.remove(i)
 
         if filter_genre != "":
-            filter_genre = Genre.query.filter_by(name=filter_genre).first()
             last_films = films.copy()
-            if not filter_genre:
-                films.clear()
-            else:
+            if filter_genre in all_genres:
                 for i in last_films:
-                    if i.id_genre != filter_genre.id:
+                    if i.id_genre != all_genres.index(filter_genre):
                         films.remove(i)
+            else:
+                films.clear()
         if filter_country != "":
             filter_country = Country.query.filter_by(name=filter_country).first()
             last_films = films.copy()
@@ -158,11 +163,8 @@ def new_film():
         file.save(f'static/images/{file.filename}')
     if form.validate_on_submit():
 
-        if not Film.query.filter_by(name=form.name.data).first():
-            name_genre = form.genre.data
-            if not Genre.query.filter_by(name=name_genre).first():
-                db.session.add(Genre(name=name_genre))
-                db.session.commit()
+        name_genre = form.genre.data
+        if name_genre in all_genres:
 
             name_country = form.country.data
             if not Country.query.filter_by(name=name_country).first():
@@ -171,12 +173,12 @@ def new_film():
 
             db.session.add(Film(name=form.name.data, description=form.description.data,
                                 image=f'static/images/{file.filename}', url=form.url.data, id_poster=current_user.id,
-                                id_genre=Genre.query.filter_by(name=name_genre).first().id,
+                                id_genre=all_genres.index(name_genre),
                                 id_country=Country.query.filter_by(name=name_country).first().id))
             db.session.commit()
             return redirect('/')
         else:
-            return redirect('/error/0')
+            return redirect('/error/2')
 
     return render_template("new_film.html", form=form, title="Create new film")
 
