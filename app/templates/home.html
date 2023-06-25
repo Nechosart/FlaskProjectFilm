@@ -12,9 +12,13 @@
     <h2 class="simple_text">Filters:</h2>
     <form method="post">
         {{ form.hidden_tag() }}
+
         <p class="pick_text"> {{ form.name.label  }} {{ form.name(size=32) }}</p>
         <p class="pick_text"> {{ form.genre.label }} {{ form.genre(size=32) }}</p>
         <p class="pick_text"> {{ form.country.label }} {{ form.country(size=32) }}</p>
+        <p class="pick_text"> {{ form.min_year.label }} {{ form.min_year(size=32) }}</p>
+        <p class="pick_text"> {{ form.max_year.label }} {{ form.max_year(size=32) }}</p>
+
         <p class="pick_text">{{ form.submit }}</p>
     </form>
 {% endif %}

@@ -33,6 +33,11 @@ entered=entered
         <span style="color: red"> {{ e }}</span>
     {% endfor %}
 
+    <p class="pick_text"> {{ form.year.label }} {{ form.year(size=32) }}</p>
+    {% for e in form.country.errors %}
+        <span style="color: red"> {{ e }}</span>
+    {% endfor %}
+
     <input class="pick_text" type="file" name="image">
     <p class="create_text">{{ form.submit }}</p>
 </form>

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField
 from wtforms.validators import DataRequired, EqualTo
 
 
@@ -25,6 +25,7 @@ class NewFilmForm(FlaskForm):
     url = StringField('URL', validators=[DataRequired()])
     genre = StringField('Genre', validators=[DataRequired()])
     country = StringField('Country', validators=[DataRequired()])
+    year = IntegerField('Year', validators=[DataRequired()])
     submit = SubmitField('Enter')
 
 
@@ -32,4 +33,6 @@ class FilterForm(FlaskForm):
     name = StringField('Name')
     genre = StringField('Genre')
     country = StringField('Country')
+    min_year = IntegerField('Min year', validators=[DataRequired()])
+    max_year = IntegerField('Max year', validators=[DataRequired()])
     submit = SubmitField('Enter')
