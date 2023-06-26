@@ -194,7 +194,7 @@ def new_film():
                 db.session.commit()
 
             db.session.add(Film(name=form.name.data, description=form.description.data,
-                                image=f'app/static/images/{file.filename}', year=form.year.data, url=form.url.data,
+                                image=f'/static/images/{file.filename}', year=form.year.data, url=form.url.data,
                                 id_poster=current_user.id, id_genre=all_genres.index(name_genre),
                                 id_country=Country.query.filter_by(name=name_country).first().id))
             db.session.commit()
